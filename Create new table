@@ -1,0 +1,211 @@
+Student.java
+package com.niit.hiber;
+
+public class Student {
+private int studentId;
+private String firstName;
+private String lastName;
+private String rollNo;
+private int age;
+private StudentClass studentClass;
+public Student() {
+	
+}
+public Student(String firstName, String lastName, String rollNo, int age, StudentClass studentClass) {
+	
+	
+	this.firstName = firstName;
+	this.lastName = lastName;
+	this.rollNo = rollNo;
+	this.age = age;
+	this.studentClass = studentClass;
+}
+public int getStudentId() {
+	return studentId;
+}
+public void setStudentId(int studentId) {
+	this.studentId = studentId;
+}
+public String getFirstName() {
+	return firstName;
+}
+public void setFirstName(String firstName) {
+	this.firstName = firstName;
+}
+public String getLastName() {
+	return lastName;
+}
+public void setLastName(String lastName) {
+	this.lastName = lastName;
+}
+public String getRollNo() {
+	return rollNo;
+}
+public void setRollNo(String rollNo) {
+	this.rollNo = rollNo;
+}
+public int getAge() {
+	return age;
+}
+public void setAge(int age) {
+	this.age = age;
+}
+public StudentClass getStudentClass() {
+	return studentClass;
+}
+public void setStudentClass(StudentClass studentClass) {
+	this.studentClass = studentClass;
+}
+
+}
+*****************************************************************************************
+StudentClass.java
+package com.niit.hiber;
+
+public class StudentClass {
+private String classId;
+private String className;
+public StudentClass() {
+	
+}
+public StudentClass(String classId, String className) {
+	
+	this.classId = classId;
+	this.className = className;
+}
+public String getClassId() {
+	return classId;
+}
+public void setClassId(String classId) {
+	this.classId = classId;
+}
+public String getClassName() {
+	return className;
+}
+public void setClassName(String className) {
+	this.className = className;
+}
+
+}
+***************************************************************************************************
+Components.jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    
+    <%@ page import ="org.hibernate.*,
+    	org.hibernate.cfg.Configuration,
+   		java.util.*,
+    	com.niit.hiber.Student,
+    	com.niit.hiber.StudentClass" %>
+    	
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+<% 
+Session sess = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory().openSession();
+Transaction t = sess.beginTransaction();
+
+StudentClass studentClass = new StudentClass("IT2","BE1");
+Student student = new Student("ayushi","Sharma","CE/01/14",97,studentClass);
+sess.save(student);
+t.commit();
+
+t=sess.beginTransaction();
+List<Student> students= sess.createQuery("FROM Student").list();
+for(Student student1: students){
+	out.println("First Name: " +student1.getFirstName()+"<br>");
+	out.println("Lastt Name: " +student1.getLastName()+"<br>");
+	out.println("RollNo : " +student1.getRollNo()+"<br>");
+	out.println("Age: " +student1.getAge()+"<br>");
+	
+StudentClass studentClass1= student.getStudentClass();
+out.println("Class Name: " +studentClass1.getClassName()+"<br>");
+
+out.println("Class Id: " +studentClass.getClassId()+"<br>");
+}
+t.commit();
+sess.close();
+
+%>
+
+</body>
+</html>
+*******************************************************************************************************************************
+hibernate.cfg.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC  
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+  
+<hibernate-configuration>  
+  
+<session-factory>  
+ <property name="hbm2ddl.auto">update</property>  
+ <property name="dialect">org.hibernate.dialect.MySQLDialect
+</property>  
+ <property name="connection.url">jdbc:mysql://localhost:3307/mysqljdbc</property>  
+ <property name="connection.username">root</property>  
+ <property name="connection.password">life24*7</property>  
+ <property name="connection.driver_class">com.mysql.jdbc.Driver</property>  
+      
+ <mapping resource="Student.hbm.xml"/>  
+ </session-factory>  
+  
+</hibernate-configuration> 
+ 
+ *******************************************************************************************************
+ Student.hbm.xml
+ <?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 24, 2019 9:55:13 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.niit.hiber.Student" table="STUDENT1">
+        <id name="studentId" type="int">
+            <column name="STUDENTID" />
+            <generator class="native" />
+        </id>
+        <property name="firstName" type="java.lang.String">
+            <column name="FIRSTNAME" />
+        </property>
+        <property name="lastName" type="java.lang.String">
+            <column name="LASTNAME" />
+        </property>
+        <property name="rollNo" type="java.lang.String">
+            <column name="ROLLNO" />
+        </property>
+        <property name="age" type="int">
+            <column name="AGE" />
+        </property>
+        
+        <component name="studentClass" class="com.niit.hiber.StudentClass">
+        <property name="classId" column="Class_Id" type="string"/>
+        <property name="className" column="Class_Name" type="string"/>
+        
+        </component>
+        
+        
+       
+    </class>
+    
+</hibernate-mapping>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
