@@ -1,0 +1,55 @@
+package com.niit.test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class BoaTest {
+
+	String food1=null;
+	String food2=null;
+	//int cageLength = 10;
+	private Boa jen;
+	private Boa ken;
+	Integer l1=0;
+	int l2=0;
+	
+	
+	@Before
+	public void setUp()
+	{
+		 jen = new  Boa("jenifer",7,"granola bars");
+		 ken = new  Boa("kenneth",8,"mango");
+		 this.food1=jen.getFavouriteFood();
+		 this.food2=ken.getFavouriteFood();
+		 this.l1=jen.getLength();
+		 this.l2=ken.getLength();
+	}
+	
+	public boolean isEqualLenght(int cageLength){
+        
+        boolean result = false;
+        if(l1==cageLength){
+            result = true;
+        }
+        return result;
+    }
+	
+	
+	@Test
+	public void testIsHealthy() {
+		
+		System.out.println("test for isHealty");
+		 assertTrue(food1.equals("granola bars"));
+	}
+
+	@Test
+	public void testFitsInCage() {
+		System.out.println("test for cage length");
+
+
+        assertTrue(l1.equals(7));
+	}
+
+}
