@@ -1,0 +1,54 @@
+package com.niit.test;
+
+public class Boa { 
+	 
+private String name;
+
+private int length; // the length of the boa, in feet private String favoriteFood; 
+ 
+private String favouriteFood;
+
+public Boa(String name, int length, String favouriteFood) {
+	super();
+	this.name = name;
+	this.length = length;
+	this.favouriteFood = favouriteFood;
+}
+
+public boolean isHealthy()
+{
+	return this.favouriteFood.equals("granola bars");
+}
+
+public boolean fitsInCage(int cageLength)
+{
+	return this.length<cageLength;
+}
+
+public String getName() {
+	return name;
+}
+
+public void setName(String name) {
+	this.name = name;
+}
+
+public int getLength() {
+	return length;
+}
+
+public void setLength(int length) {
+	this.length = length;
+}
+
+public String getFavouriteFood() {
+	return favouriteFood;
+}
+
+public void setFavouriteFood(String favouriteFood) {
+	this.favouriteFood = favouriteFood;
+}
+
+
+
+}
